@@ -1,6 +1,6 @@
 name             'pgbarman'
-maintainer       'YOUR_COMPANY_NAME'
-maintainer_email 'YOUR_EMAIL'
+maintainer       'Geoforce, Inc'
+maintainer_email 'masterkorp@masterkorp.net'
 license          'All rights reserved'
 description      'Installs/Configures pgbarman'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
