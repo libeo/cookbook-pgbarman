@@ -17,7 +17,8 @@ end
 
 remote_file "#{Chef::Config[:file_cache_path]}/barman.tar.gz" do
   source "http://downloads.sourceforge.net/project/pgbarman/1.2.3/barman-1.2.3.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fpgbarman%2Ffiles%2F1.2.3%2F&ts=1388419154&use_mirror=optimate"
-  not_if { ::File.exists?({"#{Chef::Config[:file_cache_path]}/barman.tar.gz") }
+  not_if { ::File.exists?("#{Chef::Config[:file_cache_path]}/barman.tar.gz") }
+  notifies :run, "bash[Build Barman]", :immediately
 end
 
 bash "Build Barman" do
@@ -29,4 +30,5 @@ bash "Build Barman" do
   ./setup.py build
   ./setup.py install
   EOH
+  action :nothing
 end
