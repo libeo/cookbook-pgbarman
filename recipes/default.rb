@@ -32,3 +32,19 @@ bash "Build Barman" do
   EOH
   action :nothing
 end
+
+template "/etc/barman.conf" do
+  owner "root"
+  group "root"
+  mode 00644
+  variables({
+    :home => node["pgbarman"]["home"],
+    :user => node["pgbarman"]["user"],
+    :log_file => node["pgbarman"]["log"],
+    :conf_dir => node["pgbarman"]["conf_dir"],
+    :compression => node["pgbarman"]["compression"],
+    :redundancy => node["pgbarman"]["minimum_redundancy"],
+    :retention_policy => node["pgbarman"]["retention_policy"],
+    :bandwidth_limit => node["pgbarman"]["bandwidth_limit"]
+  })
+end
