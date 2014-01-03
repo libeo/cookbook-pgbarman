@@ -4,9 +4,7 @@
 #
 # Copyright 2013, Geoforce, Inc
 #
-# All rights reserved - Do Not Redistribute
-#
-#
+
 include_recipe "postgresql"
 include_recipe "python"
 include_recipe "rsync"

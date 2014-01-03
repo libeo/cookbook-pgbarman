@@ -1,7 +1,6 @@
 #
 # Copyright 2013, Geoforce, Inc
 #
-# All rights reserved - Do Not Redistribute
 #
 #
 
