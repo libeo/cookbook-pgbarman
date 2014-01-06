@@ -13,3 +13,12 @@ suites:
     run_list:
       - recipe[pgbarman::default]
     attributes:
+  - name: client
+    run_list:
+      - recipe[postgresql::server]
+      - recipe[pgbarman::client]
+    attributes:
+      postgresql:
+        password:
+          postgres:
+            lolpassword
