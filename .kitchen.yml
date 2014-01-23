@@ -1,9 +1,12 @@
 ---
 driver:
   name: vagrant
+  driver_config:
+    require_chef_omnibus: true
 
 provisioner:
-  name: chef_solo
+  name: chef_zero
+  data_bags_path: ./test/data_bags
 
 platforms:
   - name: centos-6.4
@@ -13,3 +16,12 @@ suites:
     run_list:
       - recipe[pgbarman::default]
     attributes:
+  - name: client
+    run_list:
+      - recipe[postgresql::server]
+      - recipe[pgbarman::client]
+    attributes:
+      postgresql:
+        password:
+          postgres:
+            lolpassword
