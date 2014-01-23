@@ -9,6 +9,8 @@ include_recipe "postgresql"
 include_recipe "python"
 include_recipe "rsync"
 
+include_recipe "pgbarman::user"
+
 %w{ argcomplete argh psycopg2 python-dateutil distribute }.each do |pip|
   python_pip pip
 end
@@ -53,4 +55,4 @@ directory node["pgbarman"]["conf_dir"] do
   mode 00700
 end
 
-include_recipe "pgbarman::user"
+
