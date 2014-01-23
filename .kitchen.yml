@@ -14,14 +14,14 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[pgbarman::default]
-    attributes:
-  - name: client
-    run_list:
       - recipe[postgresql::server]
-      - recipe[pgbarman::client]
+      - recipe[pgbarman::default]
     attributes:
       postgresql:
         password:
           postgres:
             lolpassword
+  - name: server
+    run_list:
+      - recipe[pgbarman::server]
+    attributes:
