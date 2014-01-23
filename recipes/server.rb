@@ -47,4 +47,10 @@ template "/etc/barman.conf" do
   })
 end
 
+directory node["pgbarman"]["conf_dir"] do
+  owner node["pgbarman"]["user"]
+  group node["pgbarman"]["user"]
+  mode 00700
+end
+
 include_recipe "pgbarman::user"
