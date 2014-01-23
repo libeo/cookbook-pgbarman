@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pgbarman
-# Recipe:: client
+# Recipe:: user
 #
 # Copyright 2013, Geoforce, Inc
 #
