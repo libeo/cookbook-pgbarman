@@ -47,7 +47,4 @@ template "/etc/barman.conf" do
   })
 end
 
-user node["pgbarman"]["user"] do
-  home node["pgbarman"]["home"]
-  shell "/bin/bash"
-end
+include_recipe "pgbarman::user"
