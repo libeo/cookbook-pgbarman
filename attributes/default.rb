@@ -14,3 +14,4 @@ default["pgbarman"]["conf_dir"] = "/etc/barman.d"
 default["pgbarman"]["minimum_redundancy"] = 0
 default["pgbarman"]["retention_policy"] = ""
 default["pgbarman"]["bandwidth_limit"] = 0
+default["pgbarman"]["backup_this"] = false
