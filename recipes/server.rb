@@ -55,4 +55,20 @@ directory node["pgbarman"]["conf_dir"] do
   mode 00700
 end
 
+nodes = search(:node, "name:* AND backup_this:true")
 
+nodes.each do |n|
+  template "#{node["pgbarman"]["conf_dir"]}/#{n["name"]}.conf" do
+  source "postgresql.conf.erb"
+  owner node["pgbarman"]["user"]
+  group node["pgbarman"]["user"]
+  mode 00644
+  variables({
+    :name => n["name"],
+    :description => "Lolnoidea",
+    :ssh_command => "ssh #{node["pgbarman"]["user"]}@#{n["ipaddress"]}",
+    :redundancy => n["pgbarman"]["redundancy"]
+  })
+  #TODO: Notify barman service ?
+  end
+end
