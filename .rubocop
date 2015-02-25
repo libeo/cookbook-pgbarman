@@ -1,0 +1,25 @@
+AllCops:
+  Exclude:
+    - vendor/**/*
+    - ruby/**/*
+    - test/**/*
+    - files/**/*
+
+Encoding:
+  Enabled: false
+
+LineLength:
+  Max: 160
+
+Style/SingleSpaceBeforeFirstArg:
+  Exclude:
+    - metadata.rb
+
+# AlignParameters:
+#   Enabled: false
+
+# IfUnlessModifier:
+#   Enabled: false
+
+# ParameterLists:
+#   Enabled: false
