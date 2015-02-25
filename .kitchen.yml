@@ -1,6 +1,7 @@
+#<% require 'kitchen-sync' %>
 ---
 driver:
-  name: vagrant
+  name: docker
   driver_config:
     require_chef_omnibus: true
 
@@ -9,7 +10,26 @@ provisioner:
   data_bags_path: ./test/data_bags
 
 platforms:
-  - name: centos-6.4
+  - name: centos-6
+    driver_config:
+       image: centos:6
+       provision_command: curl -L https://www.opscode.com/chef/install.sh | bash
+  - name: centos-7
+    driver_config:
+       image: centos:7
+       provision_command: curl -L https://www.opscode.com/chef/install.sh | bash
+  - name: debian-wheezy
+    driver_config:
+      image: debian:wheezy
+      provision_command: curl -L https://www.opscode.com/chef/install.sh | bash
+  - name: debian-jessie
+    driver_config:
+      image: debian:jessie
+      provision_command: curl -L https://www.opscode.com/chef/install.sh | bash
+  - name: ubuntu-14
+    driver_config:
+      image: ubuntu:14.04
+      provision_command: curl -L https://www.opscode.com/chef/install.sh | bash
 
 suites:
   - name: default
