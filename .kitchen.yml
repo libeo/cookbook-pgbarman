@@ -27,8 +27,6 @@ suites:
   - name: default
     run_list:
       - recipe[apt]
-      - recipe[locales]
-      # - recipe[postgresql::server]
       - recipe[pgbarman::default]
       - recipe[pgbarman::server]
     attributes:

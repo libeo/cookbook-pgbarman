@@ -2,8 +2,6 @@
 # Cookbook Name:: pgbarman
 # Recipe:: default
 #
-# Copyright 2013, Geoforce, Inc
-#
 
 include_recipe 'postgresql'
 include_recipe 'python'

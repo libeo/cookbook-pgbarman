@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pgbarman
-# Recipe:: user
+# Recipe:: client
 #
 
 user_account 'postgres' do
