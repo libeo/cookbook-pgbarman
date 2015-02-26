@@ -9,7 +9,6 @@ include_recipe 'postgresql'
 include_recipe 'python'
 include_recipe 'rsync'
 
-include_recipe 'pgbarman::user'
 include_recipe 'build-essential'
 include_recipe 'tar'
 
@@ -32,7 +31,13 @@ bash 'Build Barman' do
   action :nothing
 end
 
-template '/etc/barman.conf' do
+directory '/etc/barman' do
+  owner node['pgbarman']['user']
+  group node['pgbarman']['user']
+  mode 00700
+end
+
+template '/etc/barman/barman.conf' do
   owner 'root'
   group 'root'
   mode 00644
@@ -52,18 +57,30 @@ directory node['pgbarman']['conf_dir'] do
   mode 00700
 end
 
-nodes = search(:node, 'name:* AND backup_this:true')
+file node['pgbarman']['log'] do
+  action :create
+  owner node['pgbarman']['user']
+  group node['pgbarman']['user']
+  mode '0600'
+end
 
+nodes = search(:node, 'pgbarman_postgres_pubkey:*')
+
+client_keys = []
 nodes.each do |n|
-  template "#{node['pgbarman']['conf_dir']}/#{n['name']}.conf" do
+  client_keys << node['pgbarman']['postgres_pubkey']
+  template "#{node['pgbarman']['conf_dir']}/#{n['fqdn']}.conf" do
     source 'postgresql.conf.erb'
     owner node['pgbarman']['user']
     group node['pgbarman']['user']
     mode 00644
-    variables(name: n['name'],
-              description: 'Lolnoidea',
-              ssh_command: "ssh #{node['pgbarman']['user']}@#{n['ipaddress']}",
-              redundancy: n['pgbarman']['redundancy'])
-    # TODO: Notify barman service ?
+    variables(description: 'Lolnoidea',
+              redundancy: n['pgbarman']['minimum_redundancy'])
   end
+end
+
+user_account node['pgbarman']['user'] do
+  action :create
+  home node['pgbarman']['home']
+  ssh_keys client_keys
 end

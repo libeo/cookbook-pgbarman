@@ -2,8 +2,7 @@
 ---
 driver:
   name: docker
-  driver_config:
-    require_chef_omnibus: true
+  use_sudo: false
 
 provisioner:
   name: chef_zero
@@ -34,14 +33,12 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[locales]
       - recipe[postgresql::server]
       - recipe[pgbarman::default]
+      - recipe[pgbarman::server]
     attributes:
       postgresql:
         password:
           postgres:
             lolpassword
-  - name: server
-    run_list:
-      - recipe[pgbarman::server]
-    attributes:
