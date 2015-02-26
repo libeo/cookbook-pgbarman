@@ -11,23 +11,21 @@ include_recipe 'rsync'
 
 include_recipe 'pgbarman::user'
 include_recipe 'build-essential'
+include_recipe 'tar'
 
 %w(argcomplete argh psycopg2 python-dateutil distribute).each do |pip|
   python_pip pip
 end
 
-remote_file "#{Chef::Config[:file_cache_path]}/barman.tar.gz" do
-  source node['pgbarman']['url']
-  not_if { ::File.exist?("#{Chef::Config[:file_cache_path]}/barman.tar.gz") }
+tar_extract node['pgbarman']['url'] do
+  target_dir Chef::Config[:file_cache_path]
   notifies :run, 'bash[Build Barman]', :immediately
 end
 
 bash 'Build Barman' do
   user 'root'
-  cwd "#{Chef::Config[:file_cache_path]}"
+  cwd "#{Chef::Config[:file_cache_path]}/barman-#{node['pgbarman']['version']}"
   code <<-EOH
-  tar xvf barman.tar.gz
-  cd barman-#{node['pgbarman']['version']}
   ./setup.py build
   ./setup.py install
   EOH
