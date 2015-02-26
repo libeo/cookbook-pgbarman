@@ -9,7 +9,8 @@ default['pgbarman']['url'] = "http://downloads.sourceforge.net/project/pgbarman/
 
 default['pgbarman']['home'] = '/var/lib/barman'
 default['pgbarman']['user'] = 'barman'
-default['pgbarman']['log'] = '/var/log/barman/barman.log'
+default['pgbarman']['log_dir'] = '/var/log/barman'
+default['pgbarman']['log_file'] = "#{node['pgbarman']['log_dir']}/barman.log"
 default['pgbarman']['compression'] = 'gzip'
 default['pgbarman']['conf_dir'] = '/etc/barman/conf.d'
 default['pgbarman']['minimum_redundancy'] = 0

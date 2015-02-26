@@ -31,6 +31,11 @@ bash 'Build Barman' do
   action :nothing
 end
 
+user_account node['pgbarman']['user'] do
+  action :create
+  home node['pgbarman']['home']
+end
+
 directory '/etc/barman' do
   owner node['pgbarman']['user']
   group node['pgbarman']['user']
@@ -38,8 +43,8 @@ directory '/etc/barman' do
 end
 
 template '/etc/barman/barman.conf' do
-  owner 'root'
-  group 'root'
+  owner node['pgbarman']['user']
+  group node['pgbarman']['user']
   mode 00644
   variables(home: node['pgbarman']['home'],
             user: node['pgbarman']['user'],
@@ -57,7 +62,14 @@ directory node['pgbarman']['conf_dir'] do
   mode 00700
 end
 
-file node['pgbarman']['log'] do
+directory node['pgbarman']['log_dir'] do
+  action :create
+  owner node['pgbarman']['user']
+  group node['pgbarman']['user']
+  mode '0755'
+end
+
+file node['pgbarman']['log_file'] do
   action :create
   owner node['pgbarman']['user']
   group node['pgbarman']['user']
