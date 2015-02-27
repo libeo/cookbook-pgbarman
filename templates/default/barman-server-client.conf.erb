@@ -6,7 +6,7 @@
 [<%= node['fqdn'] %>]
 
 ; Human readable description
-description = <%= @description %>
+description = <%= node['fqdn'] %>
 
 ; SSH Options
 ssh_command = ssh postgres@<%= node['fqdn'] %>
@@ -15,7 +15,7 @@ ssh_command = ssh postgres@<%= node['fqdn'] %>
 conninfo = host=<%= node['fqdn'] %> user=postgres
 
 ; Minumin number of required backups (redundancy)
-minimum_redundancy = <%= @redundancy %>
+minimum_redundancy = <%= node['pgbarman']['minimum_redundancy'] %>
 
 ; Examples of retention policies
 

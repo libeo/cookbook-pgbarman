@@ -34,37 +34,29 @@ user_account node['pgbarman']['user'] do
   home node['pgbarman']['home']
 end
 
-directory '/etc/barman' do
-  owner node['pgbarman']['user']
-  group node['pgbarman']['user']
-  mode 00700
+directories = ['/etc/barman', node['pgbarman']['conf_dir'], node['pgbarman']['log_dir']]
+directories.each do |barman_dir|
+  directory barman_dir do
+    owner node['pgbarman']['user']
+    group node['pgbarman']['user']
+    mode 00700
+  end
 end
 
 template '/etc/barman/barman.conf' do
   owner node['pgbarman']['user']
   group node['pgbarman']['user']
   mode 00644
-  variables(home: node['pgbarman']['home'],
-            user: node['pgbarman']['user'],
-            log_file: node['pgbarman']['log'],
-            conf_dir: node['pgbarman']['conf_dir'],
-            compression: node['pgbarman']['compression'],
-            redundancy: node['pgbarman']['minimum_redundancy'],
-            retention_policy: node['pgbarman']['retention_policy'],
-            bandwidth_limit: node['pgbarman']['bandwidth_limit'])
-end
-
-directory node['pgbarman']['conf_dir'] do
-  owner node['pgbarman']['user']
-  group node['pgbarman']['user']
-  mode 00700
-end
-
-directory node['pgbarman']['log_dir'] do
-  action :create
-  owner node['pgbarman']['user']
-  group node['pgbarman']['user']
-  mode '0755'
+  variables(
+    home:             node['pgbarman']['home'],
+    user:             node['pgbarman']['user'],
+    log_file:         node['pgbarman']['log'],
+    conf_dir:         node['pgbarman']['conf_dir'],
+    compression:      node['pgbarman']['compression'],
+    redundancy:       node['pgbarman']['minimum_redundancy'],
+    retention_policy: node['pgbarman']['retention_policy'],
+    bandwidth_limit:  node['pgbarman']['bandwidth_limit']
+  )
 end
 
 file node['pgbarman']['log_file'] do
@@ -80,12 +72,10 @@ client_keys = []
 nodes.each do |n|
   client_keys << node['pgbarman']['postgres_pubkey']
   template "#{node['pgbarman']['conf_dir']}/#{n['fqdn']}.conf" do
-    source 'postgresql.conf.erb'
+    source 'barman-server-client.conf.erb'
     owner node['pgbarman']['user']
     group node['pgbarman']['user']
     mode 00644
-    variables(description: 'Lolnoidea',
-              redundancy: n['pgbarman']['minimum_redundancy'])
   end
 end
 

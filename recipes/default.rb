@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pgbarman
-# Recipe:: user
+# Recipe:: default
 #
 
 include_recipe 'pgbarman::client'
